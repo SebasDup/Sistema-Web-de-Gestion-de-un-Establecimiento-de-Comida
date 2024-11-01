@@ -1,9 +1,9 @@
 <?php
-$currentPage = 'usuarios';
+$currentPage = 'empleados';
 include 'Static/connect/db.php'; ?>
 <?php include 'includes/header.php'; ?>
 
-<a href="usuarios.php"><img src="Static/img/back.png"></a>
+<a href="empleados.php"><img src="Static/img/back.png"></a>
 <br><br>
 
 <?php 
@@ -22,9 +22,8 @@ if (isset($_POST['update'])) {
     $id = $_GET['id'];
     $nombre = $_POST['nombre'];
     $email = $_POST['email'];
-    $password = $_POST['password']; // Cambié 'contrasena' a 'password'
+    $password = $_POST['password']; 
 
-    // Construcción de la consulta de actualización
     $update = "UPDATE usuarios SET usuario = '$nombre', email = '$email'";
     if (!empty($password)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -32,13 +31,13 @@ if (isset($_POST['update'])) {
     }
     $update .= " WHERE id = $id;";
 
-    mysqli_query($conn, $update);
-    header("Location: usuarios.php");
+    mysqli_query($conn, query: $update);
+    header("Location: empleados.php");
 }
 ?>
 
-<div class="content"><h2>Actualizar Cliente</h2>
-<form class="user-form" method="POST" action="actualizarC.php?id=<?php echo $_GET['id']; ?>">
+<div class="content"><h2>Actualizar empleado</h2>
+<form class="user-form" method="POST" action="actualizarEmpleado.php?id=<?php echo $_GET['id']; ?>">
     <div class="form_container">
         <label for="nombre" class="formulario_label">Nombre del cliente:</label>
         <input type="text" name="nombre" id="nombre" class="formulario_input" value="<?php echo $nombre; ?>">

@@ -7,7 +7,7 @@ CREATE TABLE usuarios (
     usuario VARCHAR(35) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(30) NOT NULL,
-    tipo VARCHAR(15) NOT NULL
+    tipo ENUM('administrador', 'empleado', 'cliente') NOT NULL
 );
 
 CREATE TABLE empleados (
@@ -16,6 +16,7 @@ CREATE TABLE empleados (
     puesto VARCHAR(50) NOT NULL,
     fecha_contratacion DATE NOT NULL,
     salario DECIMAL(10, 2) NOT NULL,
+    servicios_realizados INT DEFAULT 0,
     zona_asignada VARCHAR(50),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
@@ -30,6 +31,7 @@ CREATE TABLE mesas (
     numero INT NOT NULL,
     capacidad INT NOT NULL,
     estado ENUM('disponible', 'ocupada', 'reservada') NOT NULL,
+    ultima_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     zona_id INT,
     FOREIGN KEY (zona_id) REFERENCES zonas(id)
 );
@@ -40,14 +42,25 @@ CREATE TABLE reservaciones (
     fecha DATETIME NOT NULL,
     personas INT NOT NULL,
     estado ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL,
+    total_comida DECIMAL(10, 2),
     FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
 );
 
 CREATE TABLE reservaciones_mesas (
     reservacion_id INT,
     mesa_id INT,
+    ganancia DECIMAL(10, 2),
     PRIMARY KEY (reservacion_id, mesa_id),
     FOREIGN KEY (reservacion_id) REFERENCES reservaciones(id),
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id)
+);
+
+CREATE TABLE log_meseros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empleado_id INT NOT NULL,
+    mesa_id INT NOT NULL,
+    fecha_servicio DATETIME NOT NULL,
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
     FOREIGN KEY (mesa_id) REFERENCES mesas(id)
 );
 
@@ -66,6 +79,7 @@ CREATE TABLE comandas (
     fecha DATETIME NOT NULL,
     estado ENUM('abierta', 'cerrada') NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
+    total_servicios INT,
     FOREIGN KEY (mesa_id) REFERENCES mesas(id),
     FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
 );
