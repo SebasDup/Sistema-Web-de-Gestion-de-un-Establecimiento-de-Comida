@@ -1,4 +1,8 @@
 <?php
+session_start();
+  
+$user = $_SESSION['usuario'];
+if(isset($_SESSION['usuario'])){
 $currentPage = 'empleados';
 include 'Static/connect/db.php'; ?>
 <?php include 'includes/header.php'; ?>
@@ -13,7 +17,7 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
-        $nombre = $row['usuario'];
+        $nombre = $row['nombre'];
         $email = $row['email'];
     }
 }
@@ -55,3 +59,9 @@ if (isset($_POST['update'])) {
         <button class="formulario_btn" name="update">ACTUALIZAR</button> 
     </div>
 </form>
+<?php
+include 'includes/footer.php';
+}else{
+    header("Location: login.php");
+}
+?>

@@ -4,10 +4,11 @@ USE restaurante_db;
 
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(35) NOT NULL,
+    nombre VARCHAR(35) NOT NULL,
+    apellido VARCHAR(35) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(30) NOT NULL,
-    tipo ENUM('administrador', 'empleado', 'cliente') NOT NULL
+    tipo VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE empleados (
@@ -103,10 +104,17 @@ CREATE TABLE promociones (
     fecha_fin DATE NOT NULL
 );
 
-INSERT INTO usuarios (usuario, email, contrasena, tipo) VALUES
-('Admin', 'admin@restaurante.com', 'admin123', 'administrador'),
-('Mesero', 'mesero@restaurante.com', 'mesero123', 'empleado'),
-('Cliente', 'cliente@email.com', 'cliente123', 'cliente');
+CREATE TABLE horarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dia_semana ENUM('lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo') NOT NULL,
+    hora_apertura TIME NOT NULL,
+    hora_cierre TIME NOT NULL
+);
+
+INSERT INTO usuarios (nombre,  apellido,email, contrasena, tipo) VALUES
+('Admin', 'Perez','admin@restaurante.com', 'admin123', 'administrador'),
+('Mesero', 'Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),
+('Cliente', 'Hernandez','cliente@email.com', 'cliente123', 'cliente');
 
 INSERT INTO zonas (nombre) VALUES ('Zona A'), ('Zona B'), ('Zona C');
 
@@ -121,3 +129,26 @@ INSERT INTO menu (nombre, descripcion, precio, categoria) VALUES
 ('Pasta Carbonara', 'Pasta con salsa cremosa y panceta', 12.99, 'Plato principal'),
 ('Ensalada César', 'Lechuga romana con aderezo César y crutones', 8.99, 'Entrada'),
 ('Tiramisú', 'Postre italiano con café y mascarpone', 6.99, 'Postre');
+
+INSERT INTO promociones (titulo, descripcion, descuento, fecha_inicio, fecha_fin) VALUES
+('2x1 en bebidas', 'Promoción de 2x1 en bebidas alcohólicas', 50.00, '2024-06-01', '2025-06-30'),
+('Descuento del 20% en postres', 'Obtén un 20% de descuento en todos los postres', 20.00, '2024-07-01', '2025-07-31'),
+('Happy Hour', 'Descuento del 30% en bebidas de 5pm a 7pm', 30.00, '2024-08-01', '2025-08-31'),
+('Menú del día', 'Descuento del 15% en el menú del día', 15.00, '2024-09-01', '2025-09-30'),
+('Cena para dos', 'Cena para dos personas por el precio de una', 50.00, '2024-10-01', '2025-10-31'),
+('Descuento del 10% en todas las comidas', 'Obtén un 10% de descuento en todas las comidas del menú', 10.00, '2024-11-01', '2025-11-30');
+
+INSERT INTO horarios (dia_semana, hora_apertura, hora_cierre) VALUES
+('lunes', '10:00:00', '20:00:00'),
+('martes', '12:00:00', '20:00:00'),
+('miércoles', '10:00:00', '20:00:00'),
+('jueves', '11:00:00', '20:00:00'),
+('viernes', '10:00:00', '20:00:00'),
+('sábado', '11:00:00', '20:00:00'),
+('domingo', '10:00:00', '19:00:00');
+INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES
+(2, 'Mesero', '2021-01-15', 1500.00, 'Zona A'),
+(2, 'Mesero', '2021-02-20', 1500.00, 'Zona B'),
+(2, 'Mesero', '2021-03-10', 1500.00, 'Zona C'),
+(2, 'Mesero', '2021-04-05', 1500.00, 'Zona A'),
+(2, 'Mesero', '2021-05-25', 1500.00, 'Zona B');

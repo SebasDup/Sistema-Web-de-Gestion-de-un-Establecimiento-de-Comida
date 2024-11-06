@@ -1,13 +1,11 @@
 <?php
 include 'Static/connect/db.php';
-include 'includes/header.php';
 session_start();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = mysqli_real_escape_string($conn, $_POST['usuario']);
     $password = $_POST['contrasena'];
     
-    $sql = "SELECT * FROM usuarios WHERE usuario = '$user';";
+    $sql = "SELECT * FROM usuarios WHERE nombre = '$user';";
     $execute = mysqli_query($conn, $sql);
     
     if ($execute) {
@@ -16,10 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($row) {
             if ($password == $row['contrasena']) {
                 $_SESSION['usuario'] = $user;
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['rolUsuario'] = $row['tipo'];
+                
                 if ($row['tipo'] == 'administrador') {
                     header("Location: admin.php");
                 } else if ($row['tipo'] == 'empleado') {
                     header("Location: empleados.php");
+                } else if ($row['tipo'] == 'cliente') {
+                    header("Location: Vclientes.php");
                 }
                 exit();
             } else {
