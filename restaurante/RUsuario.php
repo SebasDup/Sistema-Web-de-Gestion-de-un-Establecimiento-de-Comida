@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $execute = mysqli_query($conn, $sql);
 
         if ($execute) {
-            $_SESSION['mensaje'] = "Registro exitoso. Se ha enviado un correo de confirmación.";
+            $_SESSION['mensaje'] = "Registro exitoso!";
             header("Location: usuarios.php");
             exit();
         } else {

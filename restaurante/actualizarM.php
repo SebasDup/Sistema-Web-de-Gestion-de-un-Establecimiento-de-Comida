@@ -1,4 +1,5 @@
 <?php
+session_start();
 $currentPage = 'menu';
 include 'Static/connect/db.php'; ?>
 <?php include 'includes/header.php'; ?>
@@ -28,14 +29,17 @@ if (isset($_POST['update'])) {
     $categoria = $_POST['categoria'];
 
     $update = "UPDATE menu SET nombre = '$nombre', descripcion = '$descripcion', precio = '$precio', categoria = '$categoria' WHERE id = $id;";
-
-
+    if (mysqli_query($conn, $update)) {
+        $_SESSION['mensajeAM'] = 'Platillo actualizado exitosamente';
+    } else {
+        $_SESSION['error'] = 'Error al actualizar el empleado: ' . mysqli_error($conn);
+    }
     mysqli_query($conn, query: $update);
     header("Location: menu.php");
 }
 ?>
 
-<div class="content"><h2>Actualizar menu</h2>
+<div class="content"><h2>Actualizar Platillo</h2>
 <form class="user-form" method="POST" action="actualizarM.php?id=<?php echo $_GET['id']; ?>">
     
     <div class="form_container">

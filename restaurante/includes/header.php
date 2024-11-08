@@ -27,7 +27,7 @@ $nombreUsuario = $_SESSION['usuario'];
                 <?php if ($usuarioRol == 'administrador'): ?>
                     <li><a href="admin.php" <?php echo ($currentPage == 'inicio') ? 'class="active"' : ''; ?>>Inicio</a></li>
                     <li><a href="usuarios.php" <?php echo ($currentPage == 'usuarios') ? 'class="active"' : ''; ?>>Usuarios</a></li>
-                    <li><a href="Gempleados.php" <?php echo ($currentPage == 'empleados') ? 'class="active"' : ''; ?>>Empleados</a></li>
+                    <li><a href="empleados.php" <?php echo ($currentPage == 'empleados') ? 'class="active"' : ''; ?>>Empleados</a></li>
                     <li><a href="menu.php" <?php echo ($currentPage == 'menu') ? 'class="active"' : ''; ?>>Menú</a></li>
                     <li><a href="mesas.php" <?php echo ($currentPage == 'mesas') ? 'class="active"' : ''; ?>>Mesas</a></li>
                     <li><a href="reservaciones.php" <?php echo ($currentPage == 'reservaciones') ? 'class="active"' : ''; ?>>Reservaciones</a></li>

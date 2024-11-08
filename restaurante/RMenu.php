@@ -16,9 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Mensaje de confirmación
     if ($execute) {
-        $_SESSION['message'] = "<div style='background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 5px; margin-top: 10px;'>
-                                    Registro exitoso. Se ha enviado un correo de confirmación.
-                                </div>";
+        $_SESSION['mensajeRM'] = "Registro del menú exitoso.";
         header("Location: menu.php");
         exit();
     } else {

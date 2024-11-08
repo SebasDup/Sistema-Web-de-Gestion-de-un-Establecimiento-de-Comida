@@ -18,6 +18,7 @@ if (isset($_GET['id'])) {
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
         $nombre = $row['nombre'];
+        $apellido = $row['apellido'];
         $email = $row['email'];
     }
 }
@@ -25,16 +26,20 @@ if (isset($_GET['id'])) {
 if (isset($_POST['update'])) {
     $id = $_GET['id'];
     $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
     $email = $_POST['email'];
     $password = $_POST['password']; 
 
-    $update = "UPDATE usuarios SET usuario = '$nombre', email = '$email'";
+    $update = "UPDATE usuarios SET nombre = '$nombre', apellido = '$apellido', email = '$email'";
     if (!empty($password)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $update .= ", contrasena = '$hashed_password'";
+        $update .= ", contrasena = '$password'";
     }
     $update .= " WHERE id = $id;";
-
+    if (mysqli_query($conn, $update)) {
+        $_SESSION['mensajeAEU'] = 'Empleado actualizado exitosamente';
+    } else {
+        $_SESSION['error'] = 'Error al actualizar usuario: ' . mysqli_error($conn);
+    }
     mysqli_query($conn, query: $update);
     header("Location: empleados.php");
 }
@@ -43,15 +48,19 @@ if (isset($_POST['update'])) {
 <div class="content"><h2>Actualizar empleado</h2>
 <form class="user-form" method="POST" action="actualizarEmpleado.php?id=<?php echo $_GET['id']; ?>">
     <div class="form_container">
-        <label for="nombre" class="formulario_label">Nombre del cliente:</label>
+        <label for="nombre" class="formulario_label">Nombre del empleado:</label>
         <input type="text" name="nombre" id="nombre" class="formulario_input" value="<?php echo $nombre; ?>">
     </div> 
     <div class="form_container">
-        <label for="email" class="formulario_label">Email del cliente:</label>
+        <label for="nombre" class="formulario_label">Apellido del empleado:</label>
+        <input type="text" name="apellido" id="apellido" class="formulario_input" value="<?php echo $nombre; ?>">
+    </div> 
+    <div class="form_container">
+        <label for="email" class="formulario_label">Email del empleado:</label>
         <input type="email" name="email" id="email" class="formulario_input" value="<?php echo $email; ?>">
     </div> 
     <div class="form_container">
-        <label for="password" class="formulario_label">Contraseña del cliente (dejar en blanco para no cambiar):</label>
+        <label for="password" class="formulario_label">Contraseña del empleado (dejar en blanco para no cambiar):</label>
         <input type="password" name="password" id="password" class="formulario_input">
     </div> 
     <br>

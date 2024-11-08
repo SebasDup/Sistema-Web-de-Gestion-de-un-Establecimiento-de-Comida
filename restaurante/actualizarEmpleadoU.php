@@ -1,10 +1,11 @@
 <?php
+session_start();
+
 $currentPage = 'empleados';
 include 'Static/connect/db.php'; ?>
 <?php include 'includes/header.php'; ?>
 
 <a href="empleados.php"><img src="Static/img/back.png"></a>
-<br><br>
 
 <?php 
 if (isset($_GET['id'])) {
@@ -31,7 +32,11 @@ if (isset($_POST['update'])) {
     $zonaAsignada = $_POST['zona_asignada'];
 
     $update = "UPDATE empleados SET usuario_id = '$idUsuario', fecha_contratacion = '$fechaContratacion', salario = '$salario', servicios_realizados = '$serviciosRealizados', zona_asignada = '$zonaAsignada' WHERE id = $id;";
-
+    if (mysqli_query($conn, $update)) {
+        $_SESSION['mensajeAE'] = 'Empleado actualizado exitosamente';
+    } else {
+        $_SESSION['error'] = 'Error al actualizar el empleado: ' . mysqli_error($conn);
+    }
     mysqli_query($conn, $update);
     header("Location: empleados.php");
 }

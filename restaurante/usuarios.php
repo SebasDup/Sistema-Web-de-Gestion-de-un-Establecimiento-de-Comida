@@ -94,6 +94,24 @@ if(isset($_SESSION['usuario'])) {
                 });
             });
         </script>
+        <?php if(isset($_SESSION['mensajeAU'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeAU']);
+                    unset($_SESSION['mensajeAU']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['mensajeCE'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeCE']);
+                    unset($_SESSION['mensajeCE']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
         <table class="user-table">
             <thead>
                 <tr>

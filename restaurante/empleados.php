@@ -7,12 +7,25 @@ $currentPage = 'empleados';
 include 'includes/header.php';
 include 'Static/connect/db.php';
 ?>
+<?php if(isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['error']);
+                    unset($_SESSION['error']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
     <h2>Gestión de empleados</h2>
     
     <form class="user-form needs-validation" action="REmpleadoU.php" method="POST" novalidate>
         <div class="form-group">
-            <input type="text" class="form-control" name="nombre" placeholder="Nombre de usuario" required>
+            <input type="text" class="form-control" name="nombre" placeholder="Nombre del usuario" required>
             <div class="invalid-feedback">Por favor ingrese un nombre de usuario.</div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="apellido" placeholder="Apellido del usuario" required>
+            <div class="invalid-feedback">Por favor ingrese un apellido de usuario.</div>
         </div>
         <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Email" required>
@@ -22,13 +35,39 @@ include 'Static/connect/db.php';
             <input type="password" class="form-control" name="contrasena" placeholder="Contraseña" required>
             <div class="invalid-feedback">Por favor ingrese una contraseña.</div>
         </div>
+            <?php if(isset($_SESSION['mensajeREU'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeREU']);
+                    unset($_SESSION['mensajeREU']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
         <button class="btn btn-primary" type="submit">Agregar empleado</button>
     </form>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="Static/js/appvacliente.js"></script>
-
+    <?php if(isset($_SESSION['mensajeAEU'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeAEU']);
+                    unset($_SESSION['mensajeAEU']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['mensajeEUE'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeEUE']);
+                    unset($_SESSION['mensajeEUE']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
     <h2>Usuarios empleados</h2>
 
     <table class="table table-striped user-table">
@@ -91,10 +130,36 @@ include 'Static/connect/db.php';
             <input type="text" class="form-control" name="zona" placeholder="Zona asignada" required>
             <div class="invalid-feedback">Por favor ingrese la zona asignada.</div>
         </div>
+        <?php if(isset($_SESSION['mensajeRE'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeRE']);
+                    unset($_SESSION['mensajeRE']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
         <button class="btn btn-primary" type="submit">Registrar</button>
     </form>
-    <script src="Static/js/appvacliente.js"></script>  
-    
+
+    <?php if(isset($_SESSION['mensajeAE'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeAE']);
+                    unset($_SESSION['mensajeAE']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if(isset($_SESSION['mensajeEE'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    echo htmlspecialchars($_SESSION['mensajeEE']);
+                    unset($_SESSION['mensajeEE']); 
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
     <h2>Empleados</h2>
 
     <table class="table table-striped user-table">

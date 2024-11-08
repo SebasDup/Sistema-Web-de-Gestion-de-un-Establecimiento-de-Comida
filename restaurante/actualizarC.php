@@ -1,4 +1,5 @@
 <?php
+session_start();
 $currentPage = 'usuarios';
 include 'Static/connect/db.php'; ?>
 <?php include 'includes/header.php'; ?>
@@ -13,7 +14,8 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, $query);
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
-        $nombre = $row['usuario'];
+        $nombre = $row['nombre'];
+        $apellido = $row['apellido'];
         $email = $row['email'];
     }
 }
@@ -21,18 +23,21 @@ if (isset($_GET['id'])) {
 if (isset($_POST['update'])) {
     $id = $_GET['id'];
     $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
     $email = $_POST['email'];
-    $password = $_POST['password']; // Cambié 'contrasena' a 'password'
+    $password = $_POST['password'];
 
-    // Construcción de la consulta de actualización
-    $update = "UPDATE usuarios SET usuario = '$nombre', email = '$email'";
+    $update = "UPDATE usuarios SET nombre = '$nombre', apellido = '$apellido',email = '$email'";
     if (!empty($password)) {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $update .= ", contrasena = '$hashed_password'";
+        $update .= ", contrasena = '$password'";
     }
     $update .= " WHERE id = $id;";
 
-    mysqli_query($conn, $update);
+    if (mysqli_query($conn, $update)) {
+        $_SESSION['mensajeAU'] = 'Usuario actualizado exitosamente';
+    } else {
+        $_SESSION['error'] = 'Error al actualizar usuario: ' . mysqli_error($conn);
+    }
     header("Location: usuarios.php");
 }
 ?>
@@ -42,6 +47,10 @@ if (isset($_POST['update'])) {
     <div class="form_container">
         <label for="nombre" class="formulario_label">Nombre del cliente:</label>
         <input type="text" name="nombre" id="nombre" class="formulario_input" value="<?php echo $nombre; ?>">
+    </div> 
+    <div class="form_container">
+        <label for="nombre" class="formulario_label">Apellido del cliente:</label>
+        <input type="text" name="apellido" id="apellido" class="formulario_input" value="<?php echo $apellido; ?>">
     </div> 
     <div class="form_container">
         <label for="email" class="formulario_label">Email del cliente:</label>

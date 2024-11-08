@@ -12,9 +12,13 @@ if(isset($_SESSION['usuario'])){ ?>
     if(isset($_GET['id'])) {
         $ID = $_GET['id'];
         $delete = "DELETE FROM usuarios WHERE id = $ID;";
-        mysqli_query($conn, $delete);
-        sleep(1);
+        if(mysqli_query($conn, $delete)) {
+            $_SESSION['mensajeCE'] = "Usuario eliminado exitosamente";
+        } else {
+            $_SESSION['error'] = "Error al eliminar el usuario";
+        }
         header("Location: usuarios.php");
+        exit();
     }
 } else {
     header("Location: login.php");

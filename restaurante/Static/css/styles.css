@@ -273,3 +273,62 @@ input:invalid {
     cursor: pointer;
     font-size: 16px;
 }
+
+/* Main content styles */
+.main-content {
+    padding: 20px;
+}
+
+/* Table card styles */
+.mesa-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(255, 12, 12, 0.1);
+    margin-bottom: 20px;
+}
+
+.mesa-card.disponible {
+    background-color: #e8f5e9;
+}
+
+.mesa-card.ocupada {
+    background-color: #ffebee;
+}
+
+.mesa-card.reservada {
+    background-color: #fff3e0;
+}
+
+.mesa-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.mesa-card p {
+    margin-bottom: 8px;
+}
+
+.estado-buttons {
+    margin-top: 15px;
+}
+
+.estado-buttons button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* Form styles */
+.form-control {
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+    }
+    
+    .col-md-3 {
+        margin-bottom: 15px;
+    }
+}

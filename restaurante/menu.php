@@ -29,7 +29,23 @@ include 'Static/connect/db.php';
         </div>
         <button class="btn btn-primary" type="submit">Agregar platillo al menu</button>
     </form>
-    <script src="Static/js/appvacliente.js"></script>
+    <?php if(isset($_SESSION['mensajeRM']) || isset($_SESSION['mensajeAM']) || isset($_SESSION['mensajeEM'])): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?php 
+                    if(isset($_SESSION['mensajeRM'])) {
+                        echo htmlspecialchars($_SESSION['mensajeRM']);
+                        unset($_SESSION['mensajeRM']);
+                    } elseif(isset($_SESSION['mensajeAM'])) {
+                        echo htmlspecialchars($_SESSION['mensajeAM']);
+                        unset($_SESSION['mensajeAM']);
+                    } elseif(isset($_SESSION['mensajeEM'])) {
+                        echo htmlspecialchars($_SESSION['mensajeEM']);
+                        unset($_SESSION['mensajeEM']);
+                    }
+                    ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
     <table class="table table-striped user-table">
         <thead>
             <tr>

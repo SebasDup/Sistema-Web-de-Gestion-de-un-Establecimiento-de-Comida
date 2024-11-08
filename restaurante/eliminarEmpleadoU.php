@@ -11,21 +11,12 @@ if(isset($_SESSION['usuario'])){ ?>
     <?php 
     if(isset($_GET['id'])) {
         $ID = $_GET['id'];
-        ?>
-        <script type="text/javascript">
-            var confirmDelete = confirm("¿Estás seguro de que deseas eliminar este registro?");
-            if(confirmDelete) {
-                window.location.href = "eliminarEmpleadoU.php?confirm=true&id=<?php echo $ID; ?>";
-            } else {
-                window.location.href = "empleados.php";
-            }
-        </script>
-        <?php
-    }
-
-    if(isset($_GET['confirm']) && $_GET['confirm'] == 'true' && isset($_GET['id'])) {
-        $ID = $_GET['id'];
         $delete = "DELETE FROM empleados WHERE id = $ID;";
+        if(mysqli_query($conn, $delete)) {
+            $_SESSION['mensajeEE'] = "Empleado eliminado exitosamente";
+        } else {
+            $_SESSION['error'] = "Error al eliminar el usuario";
+        }
         mysqli_query($conn, $delete);
         sleep(1);
         header("Location: empleados.php");
