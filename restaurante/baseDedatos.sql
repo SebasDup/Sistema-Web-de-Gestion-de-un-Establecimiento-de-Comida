@@ -5,7 +5,8 @@ USE restaurante_db;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(35) NOT NULL,
-    apellido VARCHAR(35) NOT NULL,
+    apellidoP VARCHAR(35) NOT NULL,
+    apellidoM VARCHAR(35) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(30) NOT NULL,
     tipo VARCHAR(16) NOT NULL
@@ -19,7 +20,7 @@ CREATE TABLE empleados (
     salario DECIMAL(10, 2) NOT NULL,
     servicios_realizados INT DEFAULT 0,
     zona_asignada VARCHAR(50),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE zonas (
@@ -34,7 +35,7 @@ CREATE TABLE mesas (
     estado ENUM('disponible', 'ocupada', 'reservada') NOT NULL,
     ultima_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     zona_id INT,
-    FOREIGN KEY (zona_id) REFERENCES zonas(id)
+    FOREIGN KEY (zona_id) REFERENCES zonas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE reservaciones (
@@ -44,7 +45,7 @@ CREATE TABLE reservaciones (
     personas INT NOT NULL,
     estado ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL,
     total_comida DECIMAL(10, 2),
-    FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE reservaciones_mesas (
@@ -52,8 +53,8 @@ CREATE TABLE reservaciones_mesas (
     mesa_id INT,
     ganancia DECIMAL(10, 2),
     PRIMARY KEY (reservacion_id, mesa_id),
-    FOREIGN KEY (reservacion_id) REFERENCES reservaciones(id),
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id)
+    FOREIGN KEY (reservacion_id) REFERENCES reservaciones(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE log_meseros (
@@ -61,8 +62,8 @@ CREATE TABLE log_meseros (
     empleado_id INT NOT NULL,
     mesa_id INT NOT NULL,
     fecha_servicio DATETIME NOT NULL,
-    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id)
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE menu (
@@ -81,8 +82,8 @@ CREATE TABLE comandas (
     estado ENUM('abierta', 'cerrada') NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
     total_servicios INT,
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id),
-    FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE items_comanda (
@@ -91,8 +92,8 @@ CREATE TABLE items_comanda (
     menu_id INT,
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (comanda_id) REFERENCES comandas(id),
-    FOREIGN KEY (menu_id) REFERENCES menu(id)
+    FOREIGN KEY (comanda_id) REFERENCES comandas(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (menu_id) REFERENCES menu(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE promociones (
@@ -111,10 +112,39 @@ CREATE TABLE horarios (
     hora_cierre TIME NOT NULL
 );
 
-INSERT INTO usuarios (nombre,  apellido,email, contrasena, tipo) VALUES
-('Admin', 'Perez','admin@restaurante.com', 'admin123', 'administrador'),
-('Mesero', 'Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),
-('Cliente', 'Hernandez','cliente@email.com', 'cliente123', 'cliente');
+INSERT INTO usuarios (nombre,  apellidoP, apellidoM, email, contrasena, tipo) VALUES
+('Admin', 'Herrera','Perez','admin@restaurante.com', 'admin123', 'administrador'),
+('Mesero', 'Jaimez','Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),
+('Cliente', 'Ruiz','Hernandez','cliente@email.com', 'cliente123', 'cliente'),
+('Juan', 'Reyes', 'Flores', 'jure@gmail.com', 'juan123', 'cliente'),
+('Maria', 'Gomez', 'Sanchez', 'maria@restaurante.com', 'maria123', 'empleado'),
+('Carlos', 'Diaz', 'Martinez', 'carlos@restaurante.com', 'carlos123', 'empleado'),
+('Luis', 'Fernandez', 'Gomez', 'luis@restaurante.com', 'luis123', 'cliente'),
+('Ana', 'Martinez', 'Lopez', 'ana@restaurante.com', 'ana123', 'cliente'),
+('Pedro', 'Sanchez', 'Diaz', 'pedro@restaurante.com', 'pedro123', 'empleado'),
+('Laura', 'Hernandez', 'Garcia', 'laura@restaurante.com', 'laura123', 'cliente'),
+('Miguel', 'Torres', 'Martinez', 'miguel@restaurante.com', 'miguel123', 'cliente'),
+('Sofia', 'Lopez', 'Martinez', 'sofia@restaurante.com', 'sofia123', 'empleado'),
+('Roberto', 'Mendez', 'Gonzalez', 'roberto@restaurante.com', 'roberto123', 'cliente'),
+('Elena', 'Ramirez', 'Lopez', 'elena@restaurante.com', 'elena123', 'cliente'),
+('Fernando', 'Castro', 'Martinez', 'fernando@restaurante.com', 'fernando123', 'cliente'),
+('Isabel', 'Ortiz', 'Hernandez', 'isabel@restaurante.com', 'isabel123', 'cliente'),
+('Jorge', 'Vargas', 'Sanchez', 'jorge@restaurante.com', 'jorge123', 'cliente'),
+('Patricia', 'Morales', 'Diaz', 'patricia@restaurante.com', 'patricia123', 'cliente'),
+('Raul', 'Gutierrez', 'Garcia', 'raul@restaurante.com', 'raul123', 'cliente'),
+('Silvia', 'Rojas', 'Perez', 'silvia@restaurante.com', 'silvia123', 'cliente'),
+('Victor', 'Navarro', 'Jimenez', 'victor@restaurante.com', 'victor123', 'cliente'),
+('Yolanda', 'Molina', 'Ruiz', 'yolanda@restaurante.com', 'yolanda123', 'cliente'),
+('Andrea', 'Santos', 'Gomez', 'andrea@restaurante.com', 'andrea123', 'empleado'),
+('Bruno', 'Herrera', 'Lopez', 'bruno@restaurante.com', 'bruno123', 'empleado'),
+('Claudia', 'Cruz', 'Martinez', 'claudia@restaurante.com', 'claudia123', 'empleado'),
+('Daniel', 'Flores', 'Hernandez', 'daniel@restaurante.com', 'daniel123', 'empleado'),
+('Esteban', 'Garcia', 'Sanchez', 'esteban@restaurante.com', 'esteban123', 'empleado'),
+('Fabiola', 'Martinez', 'Diaz', 'fabiola@restaurante.com', 'fabiola123', 'empleado'),
+('Gabriel', 'Lopez', 'Garcia', 'gabriel@restaurante.com', 'gabriel123', 'empleado'),
+('Hector', 'Perez', 'Martinez', 'hector@restaurante.com', 'hector123', 'empleado'),
+('Irene', 'Gonzalez', 'Hernandez', 'irene@restaurante.com', 'irene123', 'empleado'),
+('Julio', 'Ramirez', 'Sanchez', 'julio@restaurante.com', 'julio123', 'empleado');
 
 INSERT INTO zonas (nombre) VALUES ('Zona A'), ('Zona B'), ('Zona C');
 
@@ -146,9 +176,30 @@ INSERT INTO horarios (dia_semana, hora_apertura, hora_cierre) VALUES
 ('viernes', '10:00:00', '20:00:00'),
 ('sábado', '11:00:00', '20:00:00'),
 ('domingo', '10:00:00', '19:00:00');
-INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES
-(2, 'Mesero', '2021-01-15', 1500.00, 'Zona A'),
-(2, 'Mesero', '2021-02-20', 1500.00, 'Zona B'),
-(2, 'Mesero', '2021-03-10', 1500.00, 'Zona C'),
-(2, 'Mesero', '2021-04-05', 1500.00, 'Zona A'),
-(2, 'Mesero', '2021-05-25', 1500.00, 'Zona B');
+
+INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES 
+(2, 'Mesero', '2023-01-15', 1500.00, 'Zona A'),
+(5, 'Cocinero', '2023-02-20', 1800.00, 'Zona B'),
+(6, 'Cajero', '2023-03-10', 1400.00, 'Zona C'),
+(9, 'Mesero', '2023-04-05', 1500.00, 'Zona A'),
+(12, 'Cocinero', '2023-05-15', 1800.00, 'Zona B'),
+(13, 'Cajero', '2023-06-20', 1400.00, 'Zona C'),
+(14, 'Mesero', '2023-07-10', 1500.00, 'Zona A'),
+(15, 'Cocinero', '2023-08-05', 1800.00, 'Zona B'),
+(16, 'Cajero', '2023-09-15', 1400.00, 'Zona C'),
+(17, 'Mesero', '2023-10-20', 1500.00, 'Zona A'),
+(18, 'Cocinero', '2023-11-10', 1800.00, 'Zona B'),
+(19, 'Cajero', '2023-12-05', 1400.00, 'Zona C'),
+(20, 'Mesero', '2024-01-15', 1500.00, 'Zona A'),
+(21, 'Cocinero', '2024-02-20', 1800.00, 'Zona B'),
+(22, 'Cajero', '2024-03-10', 1400.00, 'Zona C'),
+(23, 'Mesero', '2024-04-05', 1500.00, 'Zona A'),
+(24, 'Cocinero', '2024-05-15', 1800.00, 'Zona B'),
+(25, 'Cajero', '2024-06-20', 1400.00, 'Zona C'),
+(26, 'Mesero', '2024-07-10', 1500.00, 'Zona A'),
+(27, 'Cocinero', '2024-08-05', 1800.00, 'Zona B'),
+(28, 'Cajero', '2024-09-15', 1400.00, 'Zona C'),
+(29, 'Mesero', '2024-10-20', 1500.00, 'Zona A'),
+(30, 'Cocinero', '2024-11-10', 1800.00, 'Zona B'),
+(31, 'Cajero', '2024-12-05', 1400.00, 'Zona C'),
+(32, 'Mesero', '2025-01-15', 1500.00, 'Zona A');
