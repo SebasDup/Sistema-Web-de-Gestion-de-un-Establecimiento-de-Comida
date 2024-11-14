@@ -28,10 +28,10 @@ if(isset($_SESSION['usuario'])) {
     <?php endif; ?>
     <div class="input-group mb-3">
         <input type="text" class="form-control" id="buscarUsuario" placeholder="Buscar usuario...">
-        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscarUsuario()">
+        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscar()">
             <i class="bi bi-search me-1"></i>
         </button>
-        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="mostrarTodosUsuarios()">
+        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="cerrar()">
             <i class="bi bi-x-circle"></i>
         </button>
         <div class="invalid-feedback">No se encontraron resultados.</div>

@@ -19,13 +19,13 @@ CREATE TABLE empleados (
     fecha_contratacion DATE NOT NULL,
     salario DECIMAL(10, 2) NOT NULL,
     servicios_realizados INT DEFAULT 0,
-    zona_asignada VARCHAR(50),
+    zona_asignada CHAR(1),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE zonas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
+    nombre CHAR(1) NOT NULL
 );
 
 CREATE TABLE mesas (
@@ -146,7 +146,7 @@ INSERT INTO usuarios (nombre,  apellidoP, apellidoM, email, contrasena, tipo) VA
 ('Irene', 'Gonzalez', 'Hernandez', 'irene@restaurante.com', 'irene123', 'empleado'),
 ('Julio', 'Ramirez', 'Sanchez', 'julio@restaurante.com', 'julio123', 'empleado');
 
-INSERT INTO zonas (nombre) VALUES ('Zona A'), ('Zona B'), ('Zona C');
+INSERT INTO zonas (nombre) VALUES ('A'), ('B'), ('C');
 
 INSERT INTO mesas (numero, capacidad, estado, zona_id) VALUES
 (1, 4, 'disponible', 1),
@@ -178,28 +178,28 @@ INSERT INTO horarios (dia_semana, hora_apertura, hora_cierre) VALUES
 ('domingo', '10:00:00', '19:00:00');
 
 INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES 
-(2, 'Mesero', '2023-01-15', 1500.00, 'Zona A'),
-(5, 'Cocinero', '2023-02-20', 1800.00, 'Zona B'),
-(6, 'Cajero', '2023-03-10', 1400.00, 'Zona C'),
-(9, 'Mesero', '2023-04-05', 1500.00, 'Zona A'),
-(12, 'Cocinero', '2023-05-15', 1800.00, 'Zona B'),
-(13, 'Cajero', '2023-06-20', 1400.00, 'Zona C'),
-(14, 'Mesero', '2023-07-10', 1500.00, 'Zona A'),
-(15, 'Cocinero', '2023-08-05', 1800.00, 'Zona B'),
-(16, 'Cajero', '2023-09-15', 1400.00, 'Zona C'),
-(17, 'Mesero', '2023-10-20', 1500.00, 'Zona A'),
-(18, 'Cocinero', '2023-11-10', 1800.00, 'Zona B'),
-(19, 'Cajero', '2023-12-05', 1400.00, 'Zona C'),
-(20, 'Mesero', '2024-01-15', 1500.00, 'Zona A'),
-(21, 'Cocinero', '2024-02-20', 1800.00, 'Zona B'),
-(22, 'Cajero', '2024-03-10', 1400.00, 'Zona C'),
-(23, 'Mesero', '2024-04-05', 1500.00, 'Zona A'),
-(24, 'Cocinero', '2024-05-15', 1800.00, 'Zona B'),
-(25, 'Cajero', '2024-06-20', 1400.00, 'Zona C'),
-(26, 'Mesero', '2024-07-10', 1500.00, 'Zona A'),
-(27, 'Cocinero', '2024-08-05', 1800.00, 'Zona B'),
-(28, 'Cajero', '2024-09-15', 1400.00, 'Zona C'),
-(29, 'Mesero', '2024-10-20', 1500.00, 'Zona A'),
-(30, 'Cocinero', '2024-11-10', 1800.00, 'Zona B'),
-(31, 'Cajero', '2024-12-05', 1400.00, 'Zona C'),
-(32, 'Mesero', '2025-01-15', 1500.00, 'Zona A');
+(2, 'Mesero', '2023-01-15', 1500.00, 'A'),
+(5, 'Cocinero', '2023-02-20', 1800.00, 'B'),
+(6, 'Cajero', '2023-03-10', 1400.00, 'C'),
+(9, 'Mesero', '2023-04-05', 1500.00, 'A'),
+(12, 'Cocinero', '2023-05-15', 1800.00, 'B'),
+(13, 'Cajero', '2023-06-20', 1400.00, 'C'),
+(14, 'Mesero', '2023-07-10', 1500.00, 'A'),
+(15, 'Cocinero', '2023-08-05', 1800.00, 'B'),
+(16, 'Cajero', '2023-09-15', 1400.00, 'C'),
+(17, 'Mesero', '2023-10-20', 1500.00, 'A'),
+(18, 'Cocinero', '2023-11-10', 1800.00, 'B'),
+(19, 'Cajero', '2023-12-05', 1400.00, 'C'),
+(20, 'Mesero', '2024-01-15', 1500.00, 'A'),
+(21, 'Cocinero', '2024-02-20', 1800.00, 'B'),
+(22, 'Cajero', '2024-03-10', 1400.00, 'C'),
+(23, 'Mesero', '2024-04-05', 1500.00, 'A'),
+(24, 'Cocinero', '2024-05-15', 1800.00, 'B'),
+(25, 'Cajero', '2024-06-20', 1400.00, 'C'),
+(26, 'Mesero', '2024-07-10', 1500.00, 'A'),
+(27, 'Cocinero', '2024-08-05', 1800.00, 'B'),
+(28, 'Cajero', '2024-09-15', 1400.00, 'C'),
+(29, 'Mesero', '2024-10-20', 1500.00, 'A'),
+(30, 'Cocinero', '2024-11-10', 1800.00, 'B'),
+(31, 'Cajero', '2024-12-05', 1400.00, 'C'),
+(32, 'Mesero', '2025-01-15', 1500.00, 'A');

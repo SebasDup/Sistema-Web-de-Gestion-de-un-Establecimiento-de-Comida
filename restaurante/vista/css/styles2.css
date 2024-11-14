@@ -59,7 +59,7 @@ body {
     animation: slideIn 2s ease-in-out;
 }
 body {
-    background: linear-gradient(to bottom, rgba(54, 26, 11, 0.8), rgba(0, 0, 0, 0.8)), url("Static/img/fondoC.jpg") no-repeat center center fixed;
+    background: linear-gradient(to bottom, rgba(247, 247, 247, 0.8), rgba(255, 214, 185, 0.8)), url("Static/img/fondoC.jpg") no-repeat center center fixed;
     background-size: cover;
     color: var(--text-color);
     line-height: 1.6;
@@ -100,6 +100,32 @@ body {
     padding: 4rem 2rem;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.section-registro{
+    padding: 4rem 2rem;
+    max-width: 600px;
+    max-height: 900px;
+    margin: 0 auto;
+}
+
+.section-registro h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.section-registro h2::after {
+    content: '';
+    display: block;
+    width: 250px;
+    height: 4px;
+    background-color: var(--secondary-color);
+    margin: 1rem auto 0;
 }
 
 section h2 {
@@ -317,7 +343,7 @@ footer {
 
 .aviso-texto a {
     color: rgb(255, 255, 255);
-    background-color: rgb(103, 64, 64);
+    background-color: #ffb300;
     padding: 1rem;
     margin: 0;
 }
@@ -331,3 +357,69 @@ footer {
     top: 0;
     z-index: 1000;
 }
+
+/*Estilos para el formulario de registro*/
+.form-label, h2 {
+    color: #ff7f50;
+}
+
+.text-dark {
+    color: #4a4a4a !important;
+}
+
+.form-control {
+    color: #4a4a4a;
+    background-color: #fff9f5;
+    border: 1px solid #ffd4b8;
+}
+
+.form-control:focus {
+    background-color: #fff;
+    border-color: #ffb084;
+    box-shadow: 0 0 0 0.2rem rgba(255, 127, 80, 0.25);
+}
+
+.oval-container {
+    background-color: #ffffff;
+    border-radius: 50px;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(255, 167, 120, 0.2);
+    border: 1px solid #ffe4d4;
+}
+
+.btn-primary {
+    background-color: #ff9666;
+    border-color: #ff8c5a;
+}
+
+.btn-primary:hover {
+    background-color: #ff7f50;
+    border-color: #ff7444;
+}
+
+.btn-secondary {
+    background-color: #ffc107;
+    border-color: #ffb700;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #ffb300;
+    border-color: #ffa600;
+}
+
+.alert-success {
+    background-color: #fffaed;
+    border-color: #ffe4bc;
+    color: #cc6d3d;
+}
+
+.container {
+    min-height: calc(100vh - 200px);
+    padding-bottom: 100px;
+}
+
+.footer {
+    margin-top: auto;
+}
+

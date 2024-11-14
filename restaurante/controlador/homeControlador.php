@@ -4,6 +4,7 @@ include 'vista/Static/connect/db.php';
 class homeControlador {
     public function index() {
         if (session_status() == PHP_SESSION_NONE) {
+            
             header("Location: http://localhost/restaurante/vista/home.php");
         }else{
             if($_SESSION['rolUsuario'] == 'administrador'){

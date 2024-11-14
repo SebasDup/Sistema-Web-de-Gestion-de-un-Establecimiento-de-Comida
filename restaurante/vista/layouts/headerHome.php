@@ -17,11 +17,16 @@
         </div>
         <div class="nav-links">
             <?php
+            if(isset($_SESSION['rolUsuario']) && $_SESSION['rolUsuario'] == 'administrador'){
+                echo '<a href="admin.php"><i class="fas fa-cog"></i> Administrar</a>';
+            }
             if(!isset($_SESSION['usuario'])){
                 echo '<a href="login.php">Iniciar Sesion</a>';
-                echo '<a href="registro.php">Registrarse</a>';
+                echo '<a href="#registro">Registrarse</a>';
             }else{
-                echo 'Bienvenido '.$_SESSION['nombre'];
+                if(($_SESSION['rolUsuario'])== 'cliente'){
+                    echo 'Bienvenido/a '.$_SESSION['nombre'];
+                }
             }
             ?>
             <a href="#promociones">Promociones</a>

@@ -32,6 +32,11 @@ class EmpleadoModelo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerZonas() {
+        $stmt = $this->pdo->query("SELECT * FROM zonas");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Método para agregar un nuevo empleado
     public function agregarEmpleado($nombre, $apellidoP, $apellidoM, $email, $contrasena, $tipo, $puesto, $fecha_contratacion, $salario, $zona_asignada) {
         $stmt = $this->pdo->prepare("INSERT INTO usuarios (nombre, apellidoP, apellidoM, email, contrasena, tipo) VALUES (?, ?, ?, ?, ?, ?)");

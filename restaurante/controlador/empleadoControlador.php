@@ -18,6 +18,7 @@ class EmpleadoControlador {
         }
         // Obtiene la lista de empleados y la envía a la vista
         $empleados = $this->modelo->obtenerEmpleados();
+        $zonas = $this->modelo->obtenerZonas();
         $_SESSION['paginaActual'] = 'empleados';
         require_once 'vista/empleados.php';
     }
@@ -43,7 +44,7 @@ class EmpleadoControlador {
                 
             }else{
                 if ($this->modelo->emailExiste($_POST['email'])) {
-                    $_SESSION['error'] = 'Error al actualizar empleado: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] . ' '. $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
+                    $_SESSION['error'] = '¡PELUCAS! Error al actualizar empleado: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] . ' '. $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
                 }else{
                     $this->modelo->actualizarUsuario($_POST['id'], $_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'],$_POST['contrasena']);
                 }
@@ -57,7 +58,7 @@ class EmpleadoControlador {
         if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['apellidoP']) && isset($_GET['apellidoM'])) {
             $this->modelo->eliminarEmpleado($_GET['id'],$_GET['nombre'], $_GET['apellidoP'], $_GET['apellidoM']);
         }else{
-            $_SESSION['error'] = "Error al eliminar el empleado";
+            $_SESSION['error'] = "¡PELUCAS! Error al eliminar el empleado";
         }
         header("Location: " . urlsite . "index.php?c=empleado");
     }

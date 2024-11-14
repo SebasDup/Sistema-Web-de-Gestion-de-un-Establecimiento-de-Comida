@@ -2,7 +2,7 @@ function normalizeText(text) {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
 }
 
-function buscarUsuario() {
+function buscar() {
     var input, filter, table, tr, td, i, txtValue;
     var found = false; // Inicializar fuera del bucle
     input = document.getElementById("buscarUsuario");
@@ -38,7 +38,7 @@ function buscarUsuario() {
     }
 }
 
-function mostrarTodosUsuarios() {
+function cerrar() {
     var table, tr, i, input;
     table = document.querySelector(".user-table");
     tr = table.getElementsByTagName("tr");

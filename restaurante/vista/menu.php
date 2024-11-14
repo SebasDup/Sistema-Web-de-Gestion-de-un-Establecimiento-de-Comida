@@ -10,13 +10,15 @@ if(isset($_SESSION['usuario'])) {
     if($usuarioRol == 'administrador' || $usuarioRol == 'empleado') {
 ?>
     <h2 class="mt-4">Gestión de Menú</h2>
-    <button class="btn btn-primary my-3 btn-Agregar" data-bs-toggle="modal" data-bs-target="#agregarMenuModal">Agregar platillo al menú</button>
+    <?php if($usuarioRol == 'administrador'): ?>
+        <button class="btn btn-primary my-3 btn-Agregar" data-bs-toggle="modal" data-bs-target="#agregarMenuModal">Agregar platillo al menú</button>
+    <?php endif; ?>
     <div class="input-group mb-3">
         <input type="text" class="form-control" id="buscarUsuario" placeholder="Buscar platillo...">
-        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscarUsuario()">
+        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscar()">
             <i class="bi bi-search me-1"></i>
         </button>
-        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="mostrarTodosUsuarios()">
+        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="cerrar()">
             <i class="bi bi-x-circle"></i>
         </button>
         <div class="invalid-feedback">No se encontraron resultados.</div>
@@ -67,7 +69,7 @@ if(isset($_SESSION['usuario'])) {
             <div class="modal fade" id="editarMenuModal<?= $menu['id'] ?>" tabindex="-1" aria-labelledby="editarMenuLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form id="editarMenuForm<?= $menu['id'] ?>" action="UMenu.php" method="POST">
+                        <form id="editarMenuForm<?= $menu['id'] ?>" action="index.php?c=menu&m=actualizarMenu" method="POST">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="editarMenuLabel">Modificar Platillo</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -86,8 +88,8 @@ if(isset($_SESSION['usuario'])) {
                                 </div>
                                 <div class="mb-3">
                                     <label>Precio</label>
-                                    <input type="number" name="precio" class="form-control" value="<?= $menu['precio'] ?>" min="0" required>
-                                    <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+                                    <input type="number" name="precio" class="form-control" value="<?= $menu['precio'] ?>" min="0" step="0.01" pattern="^\d+(\.\d{1,2})?$" required>
+                                    <div class="invalid-feedback">Por favor, ingrese un precio válido con hasta dos decimales.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label>Categoría</label>
@@ -117,7 +119,7 @@ if(isset($_SESSION['usuario'])) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a href="DMenu.php?id=<?= $menu['id'] ?>" class="btn btn-danger">Eliminar</a>
+                            <a href="index.php?c=menu&m=eliminarMenu&id=<?= $menu['id'] ?>&nombre=<?= $menu['nombre'] ?>" class="btn btn-danger">Eliminar</a>
                         </div>
                     </div>
                 </div>
@@ -129,7 +131,7 @@ if(isset($_SESSION['usuario'])) {
     <div class="modal fade" id="agregarMenuModal" tabindex="-1" aria-labelledby="agregarMenuLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="nuevoMenuForm" action="RMenu.php" method="POST">
+                <form id="nuevoMenuForm" action="index.php?c=menu&m=guardarMenu" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="agregarMenuLabel">Agregar Platillo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -147,8 +149,8 @@ if(isset($_SESSION['usuario'])) {
                         </div>
                         <div class="mb-3">
                             <label>Precio</label>
-                            <input type="number" name="precio" class="form-control" value="<?= $menu['precio'] ?>" min="0" required>
-                            <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+                            <input type="number" name="precio" class="form-control" min="0" step="0.01" pattern="^\d+(\.\d{1,2})?$" required>
+                            <div class="invalid-feedback">Por favor, ingrese un precio válido con hasta dos decimales.</div>
                         </div>
                         <div class="mb-3">
                             <label>Categoría</label>

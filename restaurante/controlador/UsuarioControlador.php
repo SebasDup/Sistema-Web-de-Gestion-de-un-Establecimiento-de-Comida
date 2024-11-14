@@ -42,7 +42,7 @@ class UsuarioControlador {
                 $this->modelo->actualizarUsuario($_POST['id'], $_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'],$_POST['contrasena']);
             }else{
                 if ($this->modelo->emailExiste($_POST['email'])) {
-                    $_SESSION['error'] = 'Error al actualizar usuario: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] . ' '. $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
+                    $_SESSION['error'] = '¡PELUCAS! Error al actualizar usuario: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] . ' '. $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
                 }else{
                     $this->modelo->actualizarUsuario($_POST['id'], $_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'],$_POST['contrasena']);
                 }
@@ -56,7 +56,7 @@ class UsuarioControlador {
         if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['apellidoP']) && isset($_GET['apellidoM'])) {
             $this->modelo->eliminarUsuario($_GET['id'],$_GET['nombre'], $_GET['apellidoP'], $_GET['apellidoM']);
         }else{
-            $_SESSION['error'] = "Error al eliminar";
+            $_SESSION['error'] = "¡PELUCAS! Error al eliminar";
         }
         header("Location: " . urlsite . "index.php?c=usuario");
     }

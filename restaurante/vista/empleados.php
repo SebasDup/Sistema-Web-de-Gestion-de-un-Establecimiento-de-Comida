@@ -27,12 +27,12 @@ if(isset($_SESSION['usuario'])) {
         </div>
     <?php endif; ?>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" id="buscarUsuario" placeholder="Buscar usuario...">
-        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="mostrarTodosUsuarios()">
-            <i class="bi bi-x-circle"></i>
-        </button>
-        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscarUsuario()">
+        <input type="text" class="form-control" id="buscarUsuario" placeholder="Buscar empleado...">
+        <button class="btn btn-outline-secondary d-flex align-items-center" style="height: 46px;" type="button" onclick="buscar()">
             <i class="bi bi-search me-1"></i>
+        </button>
+        <button class="btn btn-outline-secondary" style="height: 46px;" type="button" onclick="cerrar()">
+            <i class="bi bi-x-circle"></i>
         </button>
         <div class="invalid-feedback">No se encontraron resultados.</div>
     </div>
@@ -119,9 +119,15 @@ if(isset($_SESSION['usuario'])) {
                                     <div class="invalid-feedback">Por favor, ingrese el salario (no negativo).</div>
                                 </div>
                                 <div class="mb-3">
-                                    <label>Zona Asignada</label>
-                                    <input type="text" name="zona_asignada" class="form-control" value="<?= $empleado['zona_asignada'] ?>" required>
-                                    <div class="invalid-feedback">Por favor, ingrese la zona asignada.</div>
+                                    <label>Zona</label>
+                                    <select name="id_zona" class="form-control" required>
+                                        <?php foreach ($zonas as $zona): ?>
+                                            <option value="<?= $zona['id'] ?>" <?= ($empleado['zona_asignada'] == $zona['id']) ? 'selected' : '' ?>>
+                                                <?= strtoupper($zona['nombre']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="invalid-feedback">Por favor, seleccione una zona.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label>Contraseña</label>
@@ -205,10 +211,16 @@ if(isset($_SESSION['usuario'])) {
                             <div class="invalid-feedback">Por favor, ingrese el salario (no negativo).</div>
                         </div>
                         <div class="mb-3">
-                            <label>Zona Asignada</label>
-                            <input type="text" name="zona_asignada" class="form-control" required>
-                            <div class="invalid-feedback">Por favor, ingrese la zona asignada.</div>
-                        </div>
+                                <label>Zona</label>
+                                <select name="id_zona" class="form-control" required>
+                                    <option value="">Seleccionar Zona</option>
+                                    <?php foreach ($zonas as $zona): ?>
+                                        <option value="<?= $zona['id']; ?>"><?= $zona['nombre']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <input type="hidden" name="zona_id" id="zona_id">
+                                <div class="invalid-feedback">Por favor, seleccione una zona.</div>
+                            </div>
                         <div class="mb-3">
                             <label>Contraseña</label>
                             <input type="password" name="contrasena" class="form-control" required>
@@ -234,3 +246,8 @@ header("Location: logout.php");
 ?>
 <script src="vista/Static/js/validacionFormularios.js"></script>
 <script src="vista/Static/js/buscarDatos.js"></script>
+<script>
+function actualizarZonaId(selectElement, hiddenInputId) {
+    document.getElementById(hiddenInputId).value = selectElement.value;
+}
+</script>

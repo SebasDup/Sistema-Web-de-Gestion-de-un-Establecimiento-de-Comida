@@ -18,3 +18,10 @@ document.querySelectorAll('input').forEach(input => {
         }
     });
 });
+
+function actualizarZonaId() {
+    document.querySelector('select[name="zona"]').addEventListener('change', function() {
+        document.getElementById('zona_id').value = this.value;
+    });
+}
+document.addEventListener('DOMContentLoaded', actualizarZonaId);

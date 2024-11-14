@@ -51,6 +51,18 @@ class AuthControlador {
         }
     }
 
+    public function guardarCliente() {
+        if (isset($_POST['nombre']) && isset($_POST['apellidoP']) && isset($_POST['apellidoM']) && isset($_POST['email']) && isset($_POST['contrasena'])) {
+            if ($this->modelo->emailExiste($_POST['email'])) {
+                $_SESSION['error'] = '¡PELUCAS! Error al registrar usuario: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] .' ' . $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
+            } else {
+                $tipo = 'cliente';
+                $this->modelo->agregarUsuario($_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'], $_POST['contrasena'], $tipo);
+            }
+        }
+        header("Location: " . urlsite . "index.php?c=home");
+    }
+
     public function logout() {
         // Código para manejar el cierre de sesión
         session_start();
