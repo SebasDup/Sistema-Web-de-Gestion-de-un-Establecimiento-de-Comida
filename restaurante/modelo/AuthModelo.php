@@ -16,4 +16,17 @@ class AuthModelo {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function obtenerEmpleado($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM empleados WHERE usuario_id = ?");
+        $stmt->execute([$id]);
+        $empleado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $empleado ? $empleado : -1;
+    }
+
+    public function obtenerZonaID($zona) {
+        $stmt = $this->pdo->prepare("SELECT * FROM zonas WHERE nombre = ?");
+        $stmt->execute([$zona]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

@@ -10,6 +10,15 @@ if(isset($_SESSION['usuario'])) {
     if($usuarioRol == 'administrador' || $usuarioRol == 'empleado') {
 ?>
     <h2 class="mt-4">Gestión de Mesas</h2>
+    <?php if(isset($_SESSION['errorMesa'])) { ?>
+        <div class="alert alert-dismissible fade show <?php echo isset($_SESSION['mensaje']) ? 'alert-success' : 'alert-danger'; ?>" role="alert">
+            <?php
+                echo '<div style="color: red; font-size: 20px; font-weight: bold; text-align: center;">No hay mesas asignadas en tu zona.</div>';
+                unset($_SESSION['errorMesa']); 
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php } ?>
     <?php if($usuarioRol == 'administrador') { ?>
         <button class="btn btn-primary my-3 btn-Agregar" data-bs-toggle="modal" data-bs-target="#agregarMesaModal">Agregar Mesa</button>
         <button class="btn btn-primary my-3 btn-Agregar" data-bs-toggle="modal" data-bs-target="#agregarZonaModal">Agregar Zona</button>

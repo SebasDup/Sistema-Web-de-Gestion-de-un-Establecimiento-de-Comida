@@ -49,6 +49,8 @@ class EmpleadoControlador {
                     $this->modelo->actualizarUsuario($_POST['id'], $_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'],$_POST['contrasena']);
                 }
             }
+        }else{
+            $_SESSION['error'] = "¡PELUCAS! Error al actualizar el empleado";
         }
         header("Location: " . urlsite . "index.php?c=empleado");
     }

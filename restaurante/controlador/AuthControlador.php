@@ -16,12 +16,17 @@ class AuthControlador {
             $contrasena = $_POST['contrasena'];
             
             $user = $this->modelo->obtenerUsuario($usuario, $contrasena);
+            $idU = $user['id'];
+            $empleado = $this->modelo->obtenerEmpleado($idU);
             
             if ($user['nombre'] == $usuario) {
                 if ($user['contrasena'] == $contrasena) {
                     $_SESSION['usuario'] = $user['nombre'];
                     $_SESSION['usuario_id'] = $user['id'];
                     $_SESSION['rolUsuario'] = $user['tipo'];
+                    $zonaAsignada = $empleado['zona_asignada'];
+                    $idZona = $this->modelo->obtenerZonaID($zonaAsignada);
+                    $_SESSION['IDZonaEmp'] = $idZona['id'];
                     
                     if ($user['tipo'] == 'administrador') {
                         $_SESSION['nombre'] = $user['nombre'];

@@ -15,9 +15,9 @@ class MesaModelo {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function obtenerMesasEmpelado($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM mesas WHERE id = ?");
-        $stmt->execute([$id]);
+    public function obtenerMesasEmpelado($zonaAsignada) {
+        $stmt = $this->pdo->prepare("SELECT * FROM mesas WHERE zona_id = ?");
+        $stmt->execute([$zonaAsignada]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

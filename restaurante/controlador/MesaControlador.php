@@ -19,7 +19,11 @@ class MesaControlador {
         }
         if($_SESSION['rolUsuario'] == 'empleado'){
             $id = $_SESSION['usuario_id'];
-            $mesas = $this->modelo->obtenerMesasEmpelado($id);
+            $zonaAsignada = $_SESSION['IDZonaEmp'];
+            $mesas = $this->modelo->obtenerMesasEmpelado($zonaAsignada);
+            if (empty($mesas)) {
+                $_SESSION['errorMesa'] = 'errorMesa';
+            }
             $zonas = $this->modelo->obtenerZonas();
             $_SESSION['paginaActual'] = 'mesas';
             require_once 'vista/mesas.php';

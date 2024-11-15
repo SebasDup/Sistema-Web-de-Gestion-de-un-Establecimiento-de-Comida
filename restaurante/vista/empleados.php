@@ -120,13 +120,14 @@ if(isset($_SESSION['usuario'])) {
                                 </div>
                                 <div class="mb-3">
                                     <label>Zona</label>
-                                    <select name="id_zona" class="form-control" required>
+                                    <select name="zona_asignada" class="form-control" required onchange="actualizarZonaId(this, 'zona_nombre_<?= $empleado['id'] ?>')">
                                         <?php foreach ($zonas as $zona): ?>
-                                            <option value="<?= $zona['id'] ?>" <?= ($empleado['zona_asignada'] == $zona['id']) ? 'selected' : '' ?>>
+                                            <option value="<?= $zona['nombre'] ?>" <?= ($empleado['zona_asignada'] == $zona['nombre']) ? 'selected' : '' ?>>
                                                 <?= strtoupper($zona['nombre']) ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <input type="hidden" name="zona_id" id="zona_nombre_<?= $empleado['id'] ?>" value="<?= $empleado['zona_asignada'] ?>">
                                     <div class="invalid-feedback">Por favor, seleccione una zona.</div>
                                 </div>
                                 <div class="mb-3">
