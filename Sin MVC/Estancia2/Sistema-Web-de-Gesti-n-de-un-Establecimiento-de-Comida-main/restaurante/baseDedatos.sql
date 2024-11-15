@@ -111,6 +111,16 @@ CREATE TABLE horarios (
     hora_cierre TIME NOT NULL
 );
 
+CREATE TABLE bitacora_db (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    nombre_usuario VARCHAR(100),
+    tipo_operacion ENUM('respaldo', 'restauracion') NOT NULL,
+    nombre_archivo VARCHAR(255) NOT NULL,
+    fecha_operacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
 INSERT INTO usuarios (nombre,  apellido,email, contrasena, tipo) VALUES
 ('Admin', 'Perez','admin@restaurante.com', 'admin123', 'administrador'),
 ('Mesero', 'Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                          CURDATE()) as dias
                      FROM empleados e 
                      INNER JOIN usuarios u ON e.usuario_id = u.id 
-                     ORDER BY e.fecha_contratacion ASC LIMIT 1";
+                     ORDER BY e.fecha_contratacion ASC";
             break;
         case 'mesas_disponibles':
             // Ejemplo de consulta para mesas sin reservación en una fecha determinada

@@ -24,13 +24,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($execute) {
             $_SESSION['mensaje'] = "Registro exitoso!";
-            $redirect = ($tipo == 'cliente') ? 'clienteRegistro.php' : 'usuarios.php';
-            header("Location: $redirect");
+            // Verificar que esté logueado un admin
+            if (isset($_SESSION['rolUsuario']) && ($_SESSION['rolUsuario'] == 'administrador' || $_SESSION['rolUsuario'] == 'empleado')) {
+                header("Location: usuarios.php");
+            } else {
+                header("Location: clienteRegistro.php");
+            }
             exit();
         } else {
             $_SESSION['error'] = "Error en el registro: " . mysqli_error($conn);
-            $redirect = ($tipo == 'cliente') ? 'clienteRegistro.php' : 'usuarios.php';
-            header("Location: $redirect");
+            
+            
+            if (isset($_SESSION['rolUsuario']) && ($_SESSION['rolUsuario'] == 'administrador' || $_SESSION['rolUsuario'] == 'empleado')) {
+                header("Location: usuarios.php");
+            } else {
+                header("Location: clienteRegistro.php");
+            }
         }
     }
 }
