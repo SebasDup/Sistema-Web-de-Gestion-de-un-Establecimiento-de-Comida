@@ -5,7 +5,8 @@ USE restaurante_db;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(35) NOT NULL,
-    apellido VARCHAR(35) NOT NULL,
+    apellidoP VARCHAR(35) NOT NULL,
+    apellidoM VARCHAR(35) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     contrasena VARCHAR(30) NOT NULL,
     tipo VARCHAR(16) NOT NULL
@@ -18,13 +19,13 @@ CREATE TABLE empleados (
     fecha_contratacion DATE NOT NULL,
     salario DECIMAL(10, 2) NOT NULL,
     servicios_realizados INT DEFAULT 0,
-    zona_asignada VARCHAR(50),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    zona_asignada CHAR(1),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE zonas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
+    nombre CHAR(1) NOT NULL
 );
 
 CREATE TABLE mesas (
@@ -34,7 +35,7 @@ CREATE TABLE mesas (
     estado ENUM('disponible', 'ocupada', 'reservada') NOT NULL,
     ultima_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     zona_id INT,
-    FOREIGN KEY (zona_id) REFERENCES zonas(id)
+    FOREIGN KEY (zona_id) REFERENCES zonas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE reservaciones (
@@ -43,17 +44,16 @@ CREATE TABLE reservaciones (
     fecha DATETIME NOT NULL,
     personas INT NOT NULL,
     estado ENUM('pendiente', 'confirmada', 'cancelada') NOT NULL,
-    total_comida DECIMAL(10, 2),
-    FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
+    comentarios TEXT,
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE reservaciones_mesas (
     reservacion_id INT,
     mesa_id INT,
-    ganancia DECIMAL(10, 2),
     PRIMARY KEY (reservacion_id, mesa_id),
-    FOREIGN KEY (reservacion_id) REFERENCES reservaciones(id),
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id)
+    FOREIGN KEY (reservacion_id) REFERENCES reservaciones(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE log_meseros (
@@ -61,8 +61,8 @@ CREATE TABLE log_meseros (
     empleado_id INT NOT NULL,
     mesa_id INT NOT NULL,
     fecha_servicio DATETIME NOT NULL,
-    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id)
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE menu (
@@ -81,8 +81,8 @@ CREATE TABLE comandas (
     estado ENUM('abierta', 'cerrada') NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
     total_servicios INT,
-    FOREIGN KEY (mesa_id) REFERENCES mesas(id),
-    FOREIGN KEY (cliente_id) REFERENCES usuarios(id)
+    FOREIGN KEY (mesa_id) REFERENCES mesas(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (cliente_id) REFERENCES usuarios(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE items_comanda (
@@ -91,8 +91,8 @@ CREATE TABLE items_comanda (
     menu_id INT,
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (comanda_id) REFERENCES comandas(id),
-    FOREIGN KEY (menu_id) REFERENCES menu(id)
+    FOREIGN KEY (comanda_id) REFERENCES comandas(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (menu_id) REFERENCES menu(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE promociones (
@@ -111,19 +111,70 @@ CREATE TABLE horarios (
     hora_cierre TIME NOT NULL
 );
 
-INSERT INTO usuarios (nombre,  apellido,email, contrasena, tipo) VALUES
-('Admin', 'Perez','admin@restaurante.com', 'admin123', 'administrador'),
-('Mesero', 'Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),
-('Cliente', 'Hernandez','cliente@email.com', 'cliente123', 'cliente');
+CREATE TABLE bitacora_acciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empleado_id INT NOT NULL,
+    accion VARCHAR(50) NOT NULL,
+    tabla VARCHAR(50) NOT NULL,
+    fecha_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
-INSERT INTO zonas (nombre) VALUES ('Zona A'), ('Zona B'), ('Zona C');
+CREATE TABLE historial_zonas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empleado_id INT NOT NULL,
+    zona_asignada CHAR(1) NOT NULL,
+    fecha_asignacion DATE NOT NULL,
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO usuarios (nombre,  apellidoP, apellidoM, email, contrasena, tipo) VALUES
+('Admin', 'Herrera','Perez','admin@restaurante.com', 'admin123', 'administrador'),
+('Mesero', 'Jaimez','Lopez','mesero@restaurante.com', 'mesero123', 'empleado'),
+('Cliente', 'Ruiz','Hernandez','cliente@email.com', 'cliente123', 'cliente'),
+('Juan', 'Reyes', 'Flores', 'jure@gmail.com', 'juan123', 'cliente'),
+('Maria', 'Gomez', 'Sanchez', 'maria@restaurante.com', 'maria123', 'empleado'),
+('Carlos', 'Diaz', 'Martinez', 'carlos@restaurante.com', 'carlos123', 'empleado'),
+('Luis', 'Fernandez', 'Gomez', 'luis@restaurante.com', 'luis123', 'cliente'),
+('Ana', 'Martinez', 'Lopez', 'ana@restaurante.com', 'ana123', 'cliente'),
+('Pedro', 'Sanchez', 'Diaz', 'pedro@restaurante.com', 'pedro123', 'empleado'),
+('Laura', 'Hernandez', 'Garcia', 'laura@restaurante.com', 'laura123', 'cliente'),
+('Miguel', 'Torres', 'Martinez', 'miguel@restaurante.com', 'miguel123', 'cliente'),
+('Sofia', 'Lopez', 'Martinez', 'sofia@restaurante.com', 'sofia123', 'empleado'),
+('Roberto', 'Mendez', 'Gonzalez', 'roberto@restaurante.com', 'roberto123', 'cliente'),
+('Elena', 'Ramirez', 'Lopez', 'elena@restaurante.com', 'elena123', 'cliente'),
+('Fernando', 'Castro', 'Martinez', 'fernando@restaurante.com', 'fernando123', 'cliente'),
+('Isabel', 'Ortiz', 'Hernandez', 'isabel@restaurante.com', 'isabel123', 'cliente'),
+('Jorge', 'Vargas', 'Sanchez', 'jorge@restaurante.com', 'jorge123', 'cliente'),
+('Patricia', 'Morales', 'Diaz', 'patricia@restaurante.com', 'patricia123', 'cliente'),
+('Raul', 'Gutierrez', 'Garcia', 'raul@restaurante.com', 'raul123', 'cliente'),
+('Silvia', 'Rojas', 'Perez', 'silvia@restaurante.com', 'silvia123', 'cliente'),
+('Victor', 'Navarro', 'Jimenez', 'victor@restaurante.com', 'victor123', 'cliente'),
+('Yolanda', 'Molina', 'Ruiz', 'yolanda@restaurante.com', 'yolanda123', 'cliente'),
+('Andrea', 'Santos', 'Gomez', 'andrea@restaurante.com', 'andrea123', 'empleado'),
+('Bruno', 'Herrera', 'Lopez', 'bruno@restaurante.com', 'bruno123', 'empleado'),
+('Claudia', 'Cruz', 'Martinez', 'claudia@restaurante.com', 'claudia123', 'empleado'),
+('Daniel', 'Flores', 'Hernandez', 'daniel@restaurante.com', 'daniel123', 'empleado'),
+('Esteban', 'Garcia', 'Sanchez', 'esteban@restaurante.com', 'esteban123', 'empleado'),
+('Fabiola', 'Martinez', 'Diaz', 'fabiola@restaurante.com', 'fabiola123', 'empleado'),
+('Gabriel', 'Lopez', 'Garcia', 'gabriel@restaurante.com', 'gabriel123', 'empleado'),
+('Hector', 'Perez', 'Martinez', 'hector@restaurante.com', 'hector123', 'empleado'),
+('Irene', 'Gonzalez', 'Hernandez', 'irene@restaurante.com', 'irene123', 'empleado'),
+('Julio', 'Ramirez', 'Sanchez', 'julio@restaurante.com', 'julio123', 'empleado');
+
+INSERT INTO zonas (nombre) VALUES ('A'), ('B'), ('C'), ('D'), ('E');
 
 INSERT INTO mesas (numero, capacidad, estado, zona_id) VALUES
 (1, 4, 'disponible', 1),
 (2, 6, 'disponible', 1),
 (3, 2, 'disponible', 2),
 (4, 8, 'disponible', 2),
-(5, 4, 'disponible', 3);
+(5, 4, 'disponible', 3),
+(6, 6, 'disponible', 3),
+(7, 2, 'disponible', 4),
+(8, 8, 'disponible', 4),
+(9, 4, 'disponible', 5),
+(10, 6, 'disponible', 5);
 
 INSERT INTO menu (nombre, descripcion, precio, categoria) VALUES
 ('Pasta Carbonara', 'Pasta con salsa cremosa y panceta', 12.99, 'Plato principal'),
@@ -146,9 +197,191 @@ INSERT INTO horarios (dia_semana, hora_apertura, hora_cierre) VALUES
 ('viernes', '10:00:00', '20:00:00'),
 ('sábado', '11:00:00', '20:00:00'),
 ('domingo', '10:00:00', '19:00:00');
-INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES
-(2, 'Mesero', '2021-01-15', 1500.00, 'Zona A'),
-(2, 'Mesero', '2021-02-20', 1500.00, 'Zona B'),
-(2, 'Mesero', '2021-03-10', 1500.00, 'Zona C'),
-(2, 'Mesero', '2021-04-05', 1500.00, 'Zona A'),
-(2, 'Mesero', '2021-05-25', 1500.00, 'Zona B');
+
+INSERT INTO empleados (usuario_id, puesto, fecha_contratacion, salario, zona_asignada) VALUES 
+(2, 'Mesero', '2023-01-15', 1500.00, 'A'),
+(5, 'Cocinero', '2023-02-20', 1800.00, 'B'),
+(6, 'Cajero', '2023-03-10', 1400.00, 'C'),
+(9, 'Mesero', '2023-04-05', 1500.00, 'A'),
+(12, 'Cocinero', '2023-05-15', 1800.00, 'B'),
+(13, 'Cajero', '2023-06-20', 1400.00, 'C'),
+(14, 'Mesero', '2023-07-10', 1500.00, 'A'),
+(15, 'Cocinero', '2023-08-05', 1800.00, 'B'),
+(16, 'Cajero', '2023-09-15', 1400.00, 'C'),
+(17, 'Mesero', '2023-10-20', 1500.00, 'A'),
+(18, 'Cocinero', '2023-11-10', 1800.00, 'B'),
+(19, 'Cajero', '2023-12-05', 1400.00, 'C'),
+(20, 'Mesero', '2024-01-15', 1500.00, 'A'),
+(21, 'Cocinero', '2024-02-20', 1800.00, 'B'),
+(22, 'Cajero', '2024-03-10', 1400.00, 'C'),
+(23, 'Mesero', '2024-04-05', 1500.00, 'A'),
+(24, 'Cocinero', '2024-05-15', 1800.00, 'B'),
+(25, 'Cajero', '2024-06-20', 1400.00, 'C'),
+(26, 'Mesero', '2024-07-10', 1500.00, 'A'),
+(27, 'Cocinero', '2024-08-05', 1800.00, 'B'),
+(28, 'Cajero', '2024-09-15', 1400.00, 'C'),
+(29, 'Mesero', '2024-10-20', 1500.00, 'A'),
+(30, 'Cocinero', '2024-11-10', 1800.00, 'B'),
+(31, 'Cajero', '2024-12-05', 1400.00, 'C'),
+(32, 'Mesero', '2025-01-15', 1500.00, 'A');
+
+INSERT INTO reservaciones (cliente_id, fecha, personas, estado, comentarios) VALUES
+(3, '2024-06-15 19:00:00', 4, 'confirmada', 'Mesa junto a la ventana'),
+(4, '2024-06-16 20:00:00', 2, 'pendiente', 'Mesa en el patio'),
+(7, '2024-06-17 18:30:00', 6, 'confirmada', 'Mesa en el salón principal'),
+(8, '2024-06-18 21:00:00', 3, 'cancelada', 'Mesa cerca de la entrada'),
+(10, '2024-06-19 19:30:00', 5, 'confirmada', 'Mesa en la terraza'),
+(11, '2024-06-20 20:30:00', 2, 'pendiente', 'Mesa en el salón privado'),
+(13, '2024-06-21 18:00:00', 4, 'confirmada', 'Mesa junto a la barra'),
+(14, '2024-06-22 19:45:00', 3, 'cancelada', 'Mesa en el jardín'),
+(16, '2024-06-23 20:15:00', 2, 'confirmada', 'Mesa en el salón VIP'),
+(17, '2024-06-24 21:30:00', 6, 'pendiente', 'Mesa en el salón principal');
+
+INSERT INTO reservaciones_mesas (reservacion_id, mesa_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10);
+
+DELIMITER //
+
+CREATE TRIGGER after_empleado_insert
+AFTER INSERT ON empleados
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'empleados');
+    INSERT INTO historial_zonas (empleado_id, zona_asignada, fecha_asignacion) VALUES (NEW.id, NEW.zona_asignada, CURDATE());
+END //
+
+CREATE TRIGGER after_empleado_update
+AFTER UPDATE ON empleados
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'empleados');
+    IF NEW.zona_asignada != OLD.zona_asignada THEN
+        INSERT INTO historial_zonas (empleado_id, zona_asignada, fecha_asignacion) VALUES (NEW.id, NEW.zona_asignada, CURDATE());
+    END IF;
+END //
+
+CREATE TRIGGER after_empleado_delete
+AFTER DELETE ON empleados
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'empleados');
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE TRIGGER after_usuarios_insert
+AFTER INSERT ON usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'usuarios');
+END //
+
+CREATE TRIGGER after_usuarios_update
+AFTER UPDATE ON usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'usuarios');
+END //
+
+CREATE TRIGGER after_usuarios_delete
+AFTER DELETE ON usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'usuarios');
+END //
+
+CREATE TRIGGER after_mesas_insert
+AFTER INSERT ON mesas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'mesas');
+END //
+
+CREATE TRIGGER after_mesas_update
+AFTER UPDATE ON mesas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'mesas');
+END //
+
+CREATE TRIGGER after_mesas_delete
+AFTER DELETE ON mesas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'mesas');
+END //
+
+CREATE TRIGGER after_reservaciones_insert
+AFTER INSERT ON reservaciones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'reservaciones');
+END //
+
+CREATE TRIGGER after_reservaciones_update
+AFTER UPDATE ON reservaciones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'reservaciones');
+END //
+
+CREATE TRIGGER after_reservaciones_delete
+AFTER DELETE ON reservaciones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'reservaciones');
+END //
+
+CREATE TRIGGER after_comandas_insert
+AFTER INSERT ON comandas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'comandas');
+END //
+
+CREATE TRIGGER after_comandas_update
+AFTER UPDATE ON comandas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'comandas');
+END //
+
+CREATE TRIGGER after_comandas_delete
+AFTER DELETE ON comandas
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'comandas');
+END //
+
+CREATE TRIGGER after_promociones_insert
+AFTER INSERT ON promociones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'INSERT', 'promociones');
+END //
+
+CREATE TRIGGER after_promociones_update
+AFTER UPDATE ON promociones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (NEW.id, 'UPDATE', 'promociones');
+END //
+
+CREATE TRIGGER after_promociones_delete
+AFTER DELETE ON promociones
+FOR EACH ROW
+BEGIN
+    INSERT INTO bitacora_acciones (empleado_id, accion, tabla) VALUES (OLD.id, 'DELETE', 'promociones');
+END //
+
+DELIMITER ;
