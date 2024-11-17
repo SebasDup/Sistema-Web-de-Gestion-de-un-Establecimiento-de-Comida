@@ -342,10 +342,11 @@ footer {
 }
 
 .aviso-texto a {
-    color: rgb(255, 255, 255);
+    color: rgba(red, green, blue, alpha);
     background-color: #ffb300;
     padding: 1rem;
     margin: 0;
+    border-radius: 4px;
 }
 
 .container-reserva {

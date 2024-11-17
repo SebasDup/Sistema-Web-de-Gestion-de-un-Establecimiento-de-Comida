@@ -12,14 +12,14 @@ class AuthControlador {
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $usuario = $_POST['usuario'];
+            $email = $_POST['email'];
             $contrasena = $_POST['contrasena'];
             
-            $user = $this->modelo->obtenerUsuario($usuario, $contrasena);
+            $user = $this->modelo->obtenerUsuario($email, $contrasena);
             $idU = $user['id'];
             $empleado = $this->modelo->obtenerEmpleado($idU);
             
-            if ($user['nombre'] == $usuario) {
+            if ($user['email'] == $email) {
                 if ($user['contrasena'] == $contrasena) {
                     $_SESSION['usuario'] = $user['nombre'];
                     $_SESSION['usuario_id'] = $user['id'];
@@ -59,13 +59,17 @@ class AuthControlador {
     public function guardarCliente() {
         if (isset($_POST['nombre']) && isset($_POST['apellidoP']) && isset($_POST['apellidoM']) && isset($_POST['email']) && isset($_POST['contrasena'])) {
             if ($this->modelo->emailExiste($_POST['email'])) {
-                $_SESSION['error'] = '¡PELUCAS! Error al registrar usuario: '. $_POST['nombre'] . ' '. $_POST['apellidoP'] .' ' . $_POST['apellidoM'] . ', el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
+                $_SESSION['errorRegister'] = '¡PELUCAS! el email: '. $_POST['email'] .' ya está registrado, por favor ingrese otro';
+                header("Location: " . urlsite . "register.php");
             } else {
                 $tipo = 'cliente';
                 $this->modelo->agregarUsuario($_POST['nombre'], $_POST['apellidoP'], $_POST['apellidoM'], $_POST['email'], $_POST['contrasena'], $tipo);
+                header("Location: " . urlsite . "index.php?c=home");
             }
+        }else{
+            $_SESSION['errorRegister'] = '¡PELUCAS! Todos los campos son obligatorios, por favor contestalos';
+            header("Location: " . urlsite . "register.php");
         }
-        header("Location: " . urlsite . "index.php?c=home");
     }
 
     public function logout() {

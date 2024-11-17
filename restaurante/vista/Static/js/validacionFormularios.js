@@ -25,3 +25,10 @@ function actualizarZonaId() {
     });
 }
 document.addEventListener('DOMContentLoaded', actualizarZonaId);
+
+function actualizarMesaId() {
+    document.querySelector('select[name="zona"]').addEventListener('change', function() {
+        document.getElementById('mesa_id').value = this.value;
+    });
+}
+document.addEventListener('DOMContentLoaded', actualizarMesaId);

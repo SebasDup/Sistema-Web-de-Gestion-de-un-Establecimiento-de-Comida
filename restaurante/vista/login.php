@@ -16,37 +16,44 @@ session_start();
     <div class="login-container">
         <form method="POST" name="frm1" id="frm1" action="http://localhost/restaurante/index.php?c=auth&m=login" class="login-form needs-validation" novalidate>
             <h2>Inicio de Sesión</h2>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                </div>
-                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario" required>
-                <div class="invalid-feedback">Por favor ingrese su usuario.</div>
+            <?php if(isset($_SESSION['error']) || isset($_SESSION['mensaje'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php 
+                echo $_SESSION['error'];
+                unset($_SESSION['error']); 
+                ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                </div>
-                <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Contraseña" required>
-                <div class="invalid-feedback">Por favor ingrese su contraseña.</div>
+            <?php endif; ?>
+            <div class="input-group mb-3" style="min-width: 200px;">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width: 42px; display: flex; align-items: center;"><i class="fas fa-user"></i></span>
+            </div>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+            <div class="invalid-feedback">Por favor ingrese su correo electrónico.</div>
+            </div>
+            <div class="input-group mb-3" style="min-width: 200px;">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width: 42px; display: flex; align-items: center;"><i class="fas fa-lock"></i></span>
+            </div>
+            <input type="password" name="contrasena" id="contrasena" class="form-control" placeholder="Contraseña" required>
+            <div class="invalid-feedback">Por favor ingrese su contraseña.</div>
+            </div>
+            <div class="mt-3 ">
+            ¿No tienes una cuenta? <a href="register.php">Regístrate</a>
             </div>
             <button type="submit" class="btn btn-primary boton-login">Enviar</button>
             <div id="error-message" class="alert alert-danger mt-3 d-none" role="alert">
-                Credenciales incorrectas. Por favor, inténtelo de nuevo.
+            Credenciales incorrectas. Por favor, inténtelo de nuevo.
             </div>
-            <?php if(isset($_SESSION['error']) || isset($_SESSIO['mensaje'])): ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <?php 
-                    echo $_SESSION['error'];
-                    unset($_SESSION['error']); 
-                    ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            <?php endif; ?>
         </form>
+        <a href="http://localhost/restaurante/vista/home.php" class="btn btn-primary boton-login mt-3">
+            <i class="fas fa-home"></i> Regresar al inicio
+        </a>
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
